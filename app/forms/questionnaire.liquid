@@ -1,6 +1,7 @@
 ---
 name: questionnaire
 resource: user_email
+resource_owner: anyone
 fields:
     properties:
         email:
@@ -8,8 +9,11 @@ fields:
                 presence:
                     message: Email cannot be empty
                 email: true
+        greeting:
+            property_options:
+                virtual: true
 email_notifications:
-- example
+    - example
 callback_actions: >
     {% log "Hello from callback actions" %}
 async_callback_actions:
@@ -19,10 +23,32 @@ async_callback_actions:
     content: |-
         {% log "Hello from async callback actions - I am delayed 1 minute!" %}
 authorization_policies:
-- example_policy
+    - example_policy
+default_payload: |-
+    {
+    "properties_attributes": {
+        "greeting": "Hello from default payload!"
+    }
+    }
 ---
 
-{% form %}
-<input name="{{ form.fields.properties.email.name }}" />
-<button>Save</button>
+<p>{{ form.fields.properties.greeting.value }}</p>
+{% form html-class: 'w-50' %}
+  <div class="form-group">
+    <label for="form_email">
+      Email
+    </label>
+
+    <input
+      class="form-control"
+      name="{{ form.fields.properties.email.name }}"
+      value="{{ form.fields.properties.email.value }}"
+      id="form_email"
+      type="email"
+     >
+
+    <p>{{ form.errors['properties.email'] }}</p>
+  </div>
+
+  <button class="btn btn-primary">Save</button>
 {% endform %}
