@@ -1,0 +1,4 @@
+name: user_email
+properties:
+- name: email
+  type: string

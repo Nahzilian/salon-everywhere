@@ -1,0 +1,28 @@
+---
+name: questionnaire
+resource: user_email
+fields:
+    properties:
+        email:
+            validation:
+                presence:
+                    message: Email cannot be empty
+                email: true
+email_notifications:
+- example
+callback_actions: >
+    {% log "Hello from callback actions" %}
+async_callback_actions:
+    delay: 1
+    priority: low
+    max_attempts: 2
+    content: |-
+        {% log "Hello from async callback actions - I am delayed 1 minute!" %}
+authorization_policies:
+- example_policy
+---
+
+{% form %}
+<input name="{{ form.fields.properties.email.name }}" />
+<button>Save</button>
+{% endform %}
