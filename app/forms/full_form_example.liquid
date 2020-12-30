@@ -1,38 +1,41 @@
 ---
-name: questionnaire
-resource: user_email
+name: full_form_example
+resource: example_record
 resource_owner: anyone
+redirect_to: /full-form-example
+flash_alert: This is flash alert (fail)
+flash_notice: This is flash notice (success)
 fields:
-    properties:
-        email:
-            validation:
-                presence:
-                    message: Email cannot be empty
-                email: true
-        greeting:
-            property_options:
-                virtual: true
+  properties:
+    email:
+      validation:
+        presence:
+          message: "Email cannot be empty"
+        email: true
+    greeting:
+      property_options:
+        virtual: true
 email_notifications:
-    - example
+- welcome_user
 callback_actions: >
-    {% log "Hello from callback actions" %}
+  {% log "Hello from callback actions" %}
 async_callback_actions:
-    delay: 1
-    priority: low
-    max_attempts: 2
-    content: |-
-        {% log "Hello from async callback actions - I am delayed 1 minute!" %}
+  delay: 1
+  priority: low
+  max_attempts: 2
+  content: |-
+    {% log "Hello from async callback actions - I am delayed 1 minute!" %}
 authorization_policies:
-    - example_policy
+  - valid_example_policy
 default_payload: |-
-    {
+  {
     "properties_attributes": {
-        "greeting": "Hello from default payload!"
+      "greeting": "Hello from default payload!"
     }
-    }
+  }
 ---
-
 <p>{{ form.fields.properties.greeting.value }}</p>
+
 {% form html-class: 'w-50' %}
   <div class="form-group">
     <label for="form_email">
